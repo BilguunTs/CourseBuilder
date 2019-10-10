@@ -3,24 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
 
-const images = [
-  {
-    url: "/static/images/grid-list/breakfast.jpg",
-    title: "video",
-    width: "30%"
-  },
-  {
-    url: "/static/images/grid-list/burgers.jpg",
-    title: "article",
-    width: "30%"
-  },
-  {
-    url: "/static/images/grid-list/camera.jpg",
-    title: "book",
-    width: "30%"
-  }
-];
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",

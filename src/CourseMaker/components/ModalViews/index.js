@@ -6,17 +6,17 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import UploadView from "./FileUpload";
-import TextField from "@material-ui/core/TextField";
+import VideoIcon from "@material-ui/icons/VideoLabel";
+import ArticleIcon from "@material-ui/icons/ChromeReaderMode";
+import BookIcon from "@material-ui/icons/Book";
 import Button from "@material-ui/core/Button";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Grid from "@material-ui/core/Grid";
+import VideoModalview from "./VideoM";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -25,11 +25,13 @@ function TabPanel(props) {
       component="div"
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      id={`tab-${index}`}
+      aria-labelledby={`tab-${index}`}
       {...other}
     >
-      <Box p={3}>{children}</Box>
+      <Box style={{ padding: 0 }} p={3}>
+        {children}
+      </Box>
     </Typography>
   );
 }
@@ -42,8 +44,8 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`
+    id: `modal-type-${index}`,
+    "aria-controls": `modal-type-${index}`
   };
 }
 
@@ -54,68 +56,79 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MyComponent() {
+export default function MainModal({ jumpto, closethis, submit }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(jumpto);
   const urlRef = React.useRef(false);
   const [error, setError] = React.useState();
+  const regex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  let instance = {
+    type: "",
+    content: ""
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const HandleSubmit = () => {
-    if (urlRef.current.value.trim() === "") {
-      return setError(true);
+    let text = urlRef.current;
+    if (regex.test(text.value) === true) {
+      submit(true);
+      setOpen(false);
+      return closethis();
+    } else {
+      return (text.error = true);
     }
-    console.log(urlRef.current.value);
-    setError(false);
   };
-
+  const handleCloseModal = () => {
+    setOpen(false);
+    closethis();
+  };
   return (
     <Dialog maxWidth="md" fullWidth={true} open={open} fullScreen={fullScreen}>
       <CssBaseline />
       <DialogTitle style={{ padding: 0 }}>
-        <AppBar color="default" position="static">
+        <AppBar elevation={5} position="static" color="primary">
           <Tabs
+            centered
             value={value}
             onChange={handleChange}
-            aria-label="simple tabs example"
+            textColor="default"
+            aria-label="scrollable force tabs example"
           >
-            <Tab label="url" {...a11yProps(0)} />
-            <Tab label="upload" {...a11yProps(1)} />
+            <Tab
+              label="video"
+              icon={<VideoIcon style={{ color: "#eee" }} />}
+              {...a11yProps(0)}
+            />
+            <Tab
+              label="article"
+              icon={<ArticleIcon style={{ color: "#eee" }} />}
+              {...a11yProps(1)}
+            />
+            <Tab
+              label="book"
+              icon={<BookIcon style={{ color: "#eee" }} />}
+              {...a11yProps(2)}
+            />
           </Tabs>
         </AppBar>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent style={{ padding: 0, margin: 0 }}>
         <TabPanel value={value} index={0}>
-          <Grid
-            container
-            justify="center"
-            direction="row"
-            spacing={5}
-            alignItems="center"
-          >
-            <Grid item xs>
-              <TextField
-                error={error}
-                inputRef={urlRef}
-                required
-                label="video url"
-                fullWidth
-                placeholder="youtube.com/videoID etc "
-                variant="outlined"
-              />
-            </Grid>
-          </Grid>
+          <VideoModalview ref={urlRef} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <UploadView />
+          article goes here
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          book goes here
         </TabPanel>
       </DialogContent>
       <DialogActions>
-        <Button color="primary" onClick={() => setOpen(false)}>
+        <Button color="primary" onClick={handleCloseModal.bind(this)}>
           {" "}
           cancel
         </Button>

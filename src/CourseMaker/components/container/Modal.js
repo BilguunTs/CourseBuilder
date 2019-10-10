@@ -1,25 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
 import IconButton from "../utils/IconButtons";
 import Grid from "@material-ui/core/Grid";
-import VideoModal from "../ModalViews";
-import CssBaseline from "@material-ui/core/CssBaseline";
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${50}%`,
-    left: `${50}%`
-    // transform: `translate(-${top}%, -${left}%)`
-  };
-}
-
+import BaseModal from "../ModalViews";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 const useStyles = makeStyles(theme => ({
   modal: {
     display: "flex",
@@ -36,9 +20,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SimpleModal() {
-  const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
+  const [hascontent, setHasContent] = React.useState();
   const [open, setOpen] = React.useState(false);
   const [type, setType] = React.useState();
   const handleOpen = type => {
@@ -49,56 +32,63 @@ export default function SimpleModal() {
     let instance;
     switch (type) {
       case "video":
-        instance = <VideoModal />;
+        instance = (
+          <BaseModal
+            closethis={handleClose}
+            submit={setHasContent}
+            jumpto={0}
+          />
+        );
         break;
       case "article":
-        instance = <div> instance</div>;
+        instance = (
+          <BaseModal
+            closethis={handleClose}
+            submit={setHasContent}
+            jumpto={1}
+          />
+        );
         break;
       case "book":
-        instance = <div>book</div>;
+        instance = (
+          <BaseModal
+            closethis={handleClose}
+            submit={setHasContent}
+            jumpto={2}
+          />
+        );
         break;
+      default:
+        instance = null;
     }
     return instance;
   };
   const handleClose = () => {
+    setType(null);
     setOpen(false);
   };
 
   return (
     <div>
-      <Grid item xs container direction="row">
-        <Grid item>
-          <div
-            style={{ padding: "20px" }}
-            onClick={handleOpen.bind(this, "video")}
-          >
-            <IconButton title="video" width="100%"></IconButton>
-          </div>
+      {hascontent ? (
+        <h1>has content</h1>
+      ) : (
+        <Grid item xs container direction="row">
+          {["video", "article", "book"].map((o, i) => {
+            return (
+              <Grid key={i} item>
+                <div
+                  style={{ padding: "10px" }}
+                  onClick={handleOpen.bind(this, o)}
+                >
+                  <IconButton title={o} width="100%"></IconButton>
+                </div>
+              </Grid>
+            );
+          })}
         </Grid>
-        <Grid item>
-          <div style={{ padding: "20px" }}>
-            <IconButton title="article" width="100%"></IconButton>
-          </div>
-        </Grid>
-        <Grid item>
-          <div style={{ padding: "20px" }}>
-            <IconButton title="book" width="100%"></IconButton>
-          </div>
-        </Grid>
-      </Grid>
-
-      <Modal
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        open={open}
-        onClose={handleClose}
-        className={classes.modal}
-      >
-        <div style={modalStyle} className={classes.paper}>
-          <CssBaseline />
-          <RenderModalViews />
-        </div>
-      </Modal>
+      )}
+      <RenderModalViews />
     </div>
   );
 }
