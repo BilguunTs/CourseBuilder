@@ -8,7 +8,7 @@ import {
   Grid
 } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import { renderContent } from "./ContentContainer";
+import { RenderContent } from "./ContentContainer";
 import DefaultView from "../../contents/defaultContentView";
 import Image from "../../image1.svg";
 const useStyles = makeStyles(theme => ({
@@ -26,7 +26,7 @@ const buttontypes = [
   { value: "Assignment" }
 ];
 
-export default function SimpleExpansionPanel(props) {
+export default function MainExpansionPanel(props) {
   const [formvalue, setFormValue] = React.useState(" ");
   const classes = useStyles();
   const [editable, setEditable] = React.useState(false);
@@ -97,7 +97,12 @@ export default function SimpleExpansionPanel(props) {
             >
               {section.contents.map((c, i) => {
                 return c ? (
-                  renderContent(c, index, i)
+                  <RenderContent
+                    {...props}
+                    content={c}
+                    rootindex={index}
+                    innerindex={i}
+                  />
                 ) : (
                   <img
                     src={Image}

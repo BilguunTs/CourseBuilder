@@ -17,21 +17,21 @@ class Curriculum extends Component {
               type: "lecture",
               title: "",
               description: "dummy",
-              content: "",
+              content: null,
               editable: false
             },
             {
               type: "lecture",
               title: "",
               description: "dummy",
-              content: "",
+              content: null,
               editable: false
             },
             {
               type: "lecture",
               title: "",
               description: "dummy",
-              content: "",
+              content: null,
               editable: false
             },
             {
@@ -75,7 +75,7 @@ class Curriculum extends Component {
     });
   };
   handleAdd = (indexof, obj) => {
-    let instance = { type: "", content: "", editable: true };
+    let instance = { type: "", content: null, editable: true };
     this.setState({
       sections: update(this.state.sections, {
         [indexof]: {
@@ -90,6 +90,15 @@ class Curriculum extends Component {
       sections: update(this.state.sections, {
         [rootindex]: {
           contents: { [innerindex]: { editable: { $set: false } } }
+        }
+      })
+    });
+  };
+  addContent = (sectionIndex, rootIndex, contentValue) => {
+    this.setState({
+      sections: update(this.state.sections, {
+        [sectionIndex]: {
+          contents: { [rootIndex]: { content: { $set: contentValue } } }
         }
       })
     });
@@ -146,6 +155,7 @@ class Curriculum extends Component {
             <MainSection
               addChoice={this.addChoiceforQuiz}
               removeChoice={this.removeChoicefromQuiz}
+              addContent={this.addContent}
               handleAdd={this.handleAdd}
               setEditable={this.setEditable}
               setEditableMode={this.setEditableMode}

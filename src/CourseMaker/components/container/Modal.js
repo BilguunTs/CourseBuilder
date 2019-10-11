@@ -19,9 +19,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SimpleModal() {
+export default function ContentManager(props) {
   // getModalStyle is not a pure function, we roll the style only on the first render
-  const [hascontent, setHasContent] = React.useState();
+
   const [open, setOpen] = React.useState(false);
   const [type, setType] = React.useState();
   const handleOpen = type => {
@@ -32,31 +32,13 @@ export default function SimpleModal() {
     let instance;
     switch (type) {
       case "video":
-        instance = (
-          <BaseModal
-            closethis={handleClose}
-            submit={setHasContent}
-            jumpto={0}
-          />
-        );
+        instance = <BaseModal {...props} closethis={handleClose} jumpto={0} />;
         break;
       case "article":
-        instance = (
-          <BaseModal
-            closethis={handleClose}
-            submit={setHasContent}
-            jumpto={1}
-          />
-        );
+        instance = <BaseModal {...props} closethis={handleClose} jumpto={1} />;
         break;
       case "book":
-        instance = (
-          <BaseModal
-            closethis={handleClose}
-            submit={setHasContent}
-            jumpto={2}
-          />
-        );
+        instance = <BaseModal {...props} closethis={handleClose} jumpto={2} />;
         break;
       default:
         instance = null;
@@ -70,24 +52,21 @@ export default function SimpleModal() {
 
   return (
     <div>
-      {hascontent ? (
-        <h1>has content</h1>
-      ) : (
-        <Grid item xs container direction="row">
-          {["video", "article", "book"].map((o, i) => {
-            return (
-              <Grid key={i} item>
-                <div
-                  style={{ padding: "10px" }}
-                  onClick={handleOpen.bind(this, o)}
-                >
-                  <IconButton title={o} width="100%"></IconButton>
-                </div>
-              </Grid>
-            );
-          })}
-        </Grid>
-      )}
+      <Grid item xs container direction="row">
+        {["video", "article", "book"].map((o, i) => {
+          return (
+            <Grid key={i} item>
+              <div
+                style={{ padding: "10px" }}
+                onClick={handleOpen.bind(this, o)}
+              >
+                <IconButton title={o} width="100%"></IconButton>
+              </div>
+            </Grid>
+          );
+        })}
+      </Grid>
+
       <RenderModalViews />
     </div>
   );

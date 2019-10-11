@@ -3,7 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import DefaultView from "../../contents/defaultContentView";
 import LectureView from "../../contents/Lecture";
 import QuizView from "../../contents/Quiz";
-export function renderContent(content, rootindex, innerindex) {
+export const RenderContent = props => {
+  const { content, ...rest } = props;
   let instance;
   let container = (
     <React.Fragment>
@@ -17,7 +18,7 @@ export function renderContent(content, rootindex, innerindex) {
 
   switch (content.type) {
     case "lecture":
-      instance = <LectureView {...content} />;
+      instance = <LectureView {...props} />;
 
       break;
     case "Quiz":
@@ -29,4 +30,4 @@ export function renderContent(content, rootindex, innerindex) {
       return instance;
   }
   return instance;
-}
+};

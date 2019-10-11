@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import AddContentButtons from "../components/container/Modal";
 export default function LectureView(props) {
+  console.log(props.content);
   return (
     <ExpansionPanel>
       <ExpansionPanelSummary
@@ -18,30 +19,37 @@ export default function LectureView(props) {
         id="panel1a-header"
       >
         <Grid xs item container direction="row" justify="space-between">
-          {props.editable === true ? (
+          {props.content.editable === true ? (
             <TextField />
           ) : (
             <Fragment>
               <Grid item>
                 <Typography variant="overline">
                   {" "}
-                  {props.title}
+                  {props.content.title}
                   <Typography variant="caption">
-                    {props.description !== ""
-                      ? "-(" + props.description + ")"
+                    {props.content.description !== ""
+                      ? "-(" + props.content.description + ")"
                       : ""}
                   </Typography>
                 </Typography>
               </Grid>
-
-              <Grid item>
-                <Button variant="outlined">Add Conent</Button>
-              </Grid>
             </Fragment>
+          )}
+          {props.content.content !== null ? (
+            <Grid item></Grid>
+          ) : (
+            <Grid item>
+              <Button variant="outlined">Add Conent</Button>
+            </Grid>
           )}
         </Grid>
       </ExpansionPanelSummary>
-      <AddContentButtons />
+      {props.content.content !== null ? (
+        <div>{props.content.content}</div>
+      ) : (
+        <AddContentButtons {...props} />
+      )}
     </ExpansionPanel>
   );
 }

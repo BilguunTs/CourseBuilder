@@ -56,15 +56,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MainModal({ jumpto, closethis, submit }) {
+export default function MainModal(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(jumpto);
+  const [value, setValue] = React.useState(props.jumpto);
   const urlRef = React.useRef(false);
   const [error, setError] = React.useState();
   const regex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const { jumpto, closethis, addContent, rootindex, innerindex } = props;
   let instance = {
     type: "",
     content: ""
@@ -75,7 +76,7 @@ export default function MainModal({ jumpto, closethis, submit }) {
   const HandleSubmit = () => {
     let text = urlRef.current;
     if (regex.test(text.value) === true) {
-      submit(true);
+      addContent(rootindex, innerindex, text.value);
       setOpen(false);
       return closethis();
     } else {

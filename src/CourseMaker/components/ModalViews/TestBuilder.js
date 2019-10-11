@@ -1,19 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 import TestBuilder from "../../dragabbletest";
+import Grid from "@material-ui/core/Grid";
 const useStyles = makeStyles({
-  list: {
-    width: 700
-  },
+  list: {},
   fullList: {
     width: "auto"
   }
@@ -21,14 +14,9 @@ const useStyles = makeStyles({
 
 export default function SwipeableTemporaryDrawer(props) {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: true
-  });
+  const [open, setOpen] = React.useState(props.open);
 
-  const toggleDrawer = (side, open) => event => {
+  const toggleDrawer = open => event => {
     if (
       event &&
       event.type === "keydown" &&
@@ -36,58 +24,44 @@ export default function SwipeableTemporaryDrawer(props) {
     ) {
       return;
     }
-
-    setState({ ...state, [side]: open });
+    if (open === false) {
+      setOpen(open);
+      props.showdrawer(false);
+    }
+    setOpen(open);
   };
-
-  const sideList = side => (
-    <div className={classes.list} role="presentation">
-      <TestBuilder />
-    </div>
-  );
-
-  const fullList = side => (
-    <div
-      className={classes.fullList}
-      role="presentation"
-      onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
-    >
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
 
   return (
     <div>
-      <SwipeableDrawer
-        style={{ zIndex: "0" }}
-        anchor="right"
-        open={state.right}
-        onClose={toggleDrawer("right", false)}
-        onOpen={toggleDrawer("right", props.open)}
+      <Grid
+        container
+        direction="column"
+        alignItems="stretch"
+        spacing={4}
+        justify="center"
       >
-        {sideList("right")}
-      </SwipeableDrawer>
+        <SwipeableDrawer
+          transitionDuration={10}
+          style={{ zIndex: "0" }}
+          anchor="right"
+          open={open}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+        >
+          <Grid item>
+            <IconButton
+              variant="extended"
+              size="small"
+              onClick={toggleDrawer(false)}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <TestBuilder />
+          </Grid>
+        </SwipeableDrawer>
+      </Grid>
     </div>
   );
 }

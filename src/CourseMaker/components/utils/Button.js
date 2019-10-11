@@ -100,7 +100,7 @@ export default function CustomizedMenus(props) {
           </Button>
         </div>
       ) : showField === "test" ? (
-        <Testbuilder open={true} />
+        <Testbuilder showdrawer={setShowField} open={true} />
       ) : (
         <React.Fragment>
           <Fab
