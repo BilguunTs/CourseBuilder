@@ -52,16 +52,11 @@ export default function ContentManager(props) {
 
   return (
     <div>
-      <Grid item xs container direction="row">
+      <Grid item xs container direction="row" justify="center">
         {["video", "article", "book"].map((o, i) => {
           return (
-            <Grid key={i} item>
-              <div
-                style={{ padding: "10px" }}
-                onClick={handleOpen.bind(this, o)}
-              >
-                <IconButton title={o} width="100%"></IconButton>
-              </div>
+            <Grid key={i} onClick={handleOpen.bind(this, o)} item xs>
+              <IconButton title={o} width="100%"></IconButton>
             </Grid>
           );
         })}

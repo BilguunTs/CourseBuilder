@@ -88,15 +88,11 @@ export default function ButtonBases(props) {
         className={classes.image}
         focusVisibleClassName={classes.focusVisible}
         style={{
-          width: props.width
+          width: props.width,
+          background: "#eee"
         }}
       >
-        <span
-          className={classes.imageSrc}
-          style={{
-            backgroundColor: "#eee"
-          }}
-        />
+        <span className={classes.imageSrc} />
         <span className={classes.imageBackdrop} />
         <span className={classes.imageButton}>
           <Typography

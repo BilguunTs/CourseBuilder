@@ -9,6 +9,7 @@ import Box from "@material-ui/core/Box";
 import StreamPage from "./StreamPage";
 import CurriculumPage from "./Curriculum";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import SideTree from "./container/SideTree";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 

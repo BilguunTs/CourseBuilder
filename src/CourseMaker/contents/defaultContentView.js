@@ -55,6 +55,7 @@ export default function DefaultView(props) {
     instance.type = props.instancetype;
     instance.title = TitleRef.current.value;
     instance.description = defRef.current.value;
+    instance.content = null;
     props.handleAdd(props.index, instance);
     setTimeout(() => props.setEditableMode(props.index, false), 100);
   };

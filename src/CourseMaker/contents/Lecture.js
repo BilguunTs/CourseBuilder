@@ -9,12 +9,13 @@ import {
   Button
 } from "@material-ui/core";
 import AddContentButtons from "../components/container/Modal";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 export default function LectureView(props) {
-  console.log(props.content);
   return (
     <ExpansionPanel>
       <ExpansionPanelSummary
         expanded={false}
+        expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
@@ -36,20 +37,31 @@ export default function LectureView(props) {
               </Grid>
             </Fragment>
           )}
-          {props.content.content !== null ? (
-            <Grid item></Grid>
-          ) : (
-            <Grid item>
-              <Button variant="outlined">Add Conent</Button>
-            </Grid>
-          )}
+          {props.content.content !== null ? <Grid item>Lecture</Grid> : null}
         </Grid>
       </ExpansionPanelSummary>
-      {props.content.content !== null ? (
-        <div>{props.content.content}</div>
-      ) : (
-        <AddContentButtons {...props} />
-      )}
+      <Grid container justify="center">
+        {props.content.content !== null ? (
+          /**check content type then deside which one will be shown
+           *  1).(video)-api iframe will be replaced with VABplayer or player
+           *  2).(article)-api
+           *  3).(book)-api
+           */
+
+          <Grid item xs={12}>
+            <iframe
+              width="100%"
+              height="100%"
+              src={`https://www.youtube.com/embed/${props.content.content}?controls=0`}
+              frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </Grid>
+        ) : (
+          <AddContentButtons {...props} />
+        )}
+      </Grid>
     </ExpansionPanel>
   );
 }

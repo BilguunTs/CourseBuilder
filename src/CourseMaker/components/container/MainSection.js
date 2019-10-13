@@ -18,6 +18,11 @@ const useStyles = makeStyles(theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular
+  },
+  sideTree: {
+    position: "-webkit-sticky",
+    position: "sticky",
+    top: 0
   }
 }));
 const buttontypes = [

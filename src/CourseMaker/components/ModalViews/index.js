@@ -48,7 +48,15 @@ function a11yProps(index) {
     "aria-controls": `modal-type-${index}`
   };
 }
-
+function extractVideoID(url) {
+  var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+  var match = url.match(regExp);
+  if (match && match[7].length == 11) {
+    return match[7];
+  } else {
+    return false;
+  }
+}
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -61,7 +69,7 @@ export default function MainModal(props) {
   const [value, setValue] = React.useState(props.jumpto);
   const urlRef = React.useRef(false);
   const [error, setError] = React.useState();
-  const regex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -75,8 +83,9 @@ export default function MainModal(props) {
   };
   const HandleSubmit = () => {
     let text = urlRef.current;
-    if (regex.test(text.value) === true) {
-      addContent(rootindex, innerindex, text.value);
+    let videoID = extractVideoID(text.value);
+    if (videoID !== false) {
+      addContent(rootindex, innerindex, videoID);
       setOpen(false);
       return closethis();
     } else {

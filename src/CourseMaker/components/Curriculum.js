@@ -3,6 +3,7 @@ import { Grid } from "@material-ui/core";
 import MainButton from "./utils/Button";
 import MainSection from "./container/MainSection";
 import update from "immutability-helper";
+import SideTree from "./container/SideTree";
 class Curriculum extends Component {
   constructor(props) {
     super(props);
@@ -15,21 +16,21 @@ class Curriculum extends Component {
           contents: [
             {
               type: "lecture",
-              title: "",
+              title: "bb",
               description: "dummy",
               content: null,
               editable: false
             },
             {
               type: "lecture",
-              title: "",
+              title: "aa",
               description: "dummy",
               content: null,
               editable: false
             },
             {
               type: "lecture",
-              title: "",
+              title: "cxc",
               description: "dummy",
               content: null,
               editable: false
@@ -152,15 +153,36 @@ class Curriculum extends Component {
       <div>
         <Grid container direction="column" alignItems="center">
           <Grid item xs>
-            <MainSection
-              addChoice={this.addChoiceforQuiz}
-              removeChoice={this.removeChoicefromQuiz}
-              addContent={this.addContent}
-              handleAdd={this.handleAdd}
-              setEditable={this.setEditable}
-              setEditableMode={this.setEditableMode}
-              {...this.state}
-            />
+            <div
+              style={{
+                display: "flex",
+
+                alignItems: "space-between"
+              }}
+            >
+              <div
+                style={{
+                  position: "-webkit-sticky",
+                  position: "sticky",
+                  top: 20,
+                  height: " 25vh",
+                  width: "15%"
+                }}
+              >
+                <SideTree data={this.state} />
+              </div>
+              <div>
+                <MainSection
+                  addChoice={this.addChoiceforQuiz}
+                  removeChoice={this.removeChoicefromQuiz}
+                  addContent={this.addContent}
+                  handleAdd={this.handleAdd}
+                  setEditable={this.setEditable}
+                  setEditableMode={this.setEditableMode}
+                  {...this.state}
+                />
+              </div>
+            </div>
           </Grid>
           <Grid item>
             <MainButton addSection={this.addSection} />
