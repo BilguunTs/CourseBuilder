@@ -77,7 +77,7 @@ export default function CustomizedMenus(props) {
   };
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       {showField === "section" ? (
         <div>
           <IconButton onClick={() => setShowField(false)}>

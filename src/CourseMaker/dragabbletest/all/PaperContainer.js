@@ -59,7 +59,7 @@ const styles = {
     paddingLeft: "20px",
     zIndex: "1",
     "&:active": {
-      borderLeft: "3px solid blue",
+      borderLeft: "3px solid #6D767C ",
       opacity: "1"
     },
 

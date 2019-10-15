@@ -69,9 +69,9 @@ export default function NavTabs() {
   };
 
   return (
-    <Paper className={classes.root}>
+    <>
       <CssBaseline />
-      <AppBar position="static" color="default">
+      <AppBar position="sticky" color="default">
         <Tabs
           centered
           value={value}
@@ -93,6 +93,6 @@ export default function NavTabs() {
       <TabPanel value={value} index={2}>
         Students
       </TabPanel>
-    </Paper>
+    </>
   );
 }

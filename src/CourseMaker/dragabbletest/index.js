@@ -31,14 +31,12 @@ class DragTest extends Component {
                   <Grid item xs={12}>
                     <MainView />
                   </Grid>
+                  <Grid item style={{ position: "sticky", right: "20px" }}>
+                    <Fab onClick={ct.addForm.bind(this)} color="primary">
+                      <SpeedDialIcon />
+                    </Fab>
+                  </Grid>
                 </Grid>
-                <Fab
-                  onClick={ct.addForm.bind(this)}
-                  color="secondary"
-                  style={{ position: "fixed", right: "20px", bottom: "30px" }}
-                >
-                  <SpeedDialIcon />
-                </Fab>
               </Fragment>
             );
           }}

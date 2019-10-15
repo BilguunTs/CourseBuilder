@@ -5,6 +5,12 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import TestBuilder from "../../dragabbletest";
 import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles({
   list: {},
   fullList: {
@@ -32,8 +38,33 @@ export default function SwipeableTemporaryDrawer(props) {
   };
 
   return (
-    <div>
-      <Grid
+    <Card elevation={10} style={{ background: "#f5f5f5", margin: "5px" }}>
+      <CardHeader
+        title="Test title"
+        action={
+          <IconButton
+            variant="extended"
+            size="medium"
+            onClick={toggleDrawer(false)}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
+        subheader="test by"
+      ></CardHeader>
+      <CardContent>
+        <TestBuilder />
+      </CardContent>
+      <CardActions>
+        <Button variant="text" fullWidth color="primary">
+          Submit
+        </Button>
+      </CardActions>
+    </Card>
+  );
+}
+/**old
+ * <Grid
         container
         direction="column"
         alignItems="stretch"
@@ -62,6 +93,4 @@ export default function SwipeableTemporaryDrawer(props) {
           </Grid>
         </SwipeableDrawer>
       </Grid>
-    </div>
-  );
-}
+ */

@@ -4,6 +4,7 @@ import MainButton from "./utils/Button";
 import MainSection from "./container/MainSection";
 import update from "immutability-helper";
 import SideTree from "./container/SideTree";
+import ProgressBar from "./container/ProgressBar";
 class Curriculum extends Component {
   constructor(props) {
     super(props);
@@ -151,41 +152,38 @@ class Curriculum extends Component {
   render() {
     return (
       <div>
-        <Grid container direction="column" alignItems="center">
-          <Grid item xs>
-            <div
-              style={{
-                display: "flex",
-
-                alignItems: "space-between"
-              }}
-            >
-              <div
-                style={{
-                  position: "-webkit-sticky",
-                  position: "sticky",
-                  top: 20,
-                  height: " 25vh",
-                  width: "15%"
-                }}
-              >
-                <SideTree data={this.state} />
-              </div>
-              <div>
-                <MainSection
-                  addChoice={this.addChoiceforQuiz}
-                  removeChoice={this.removeChoicefromQuiz}
-                  addContent={this.addContent}
-                  handleAdd={this.handleAdd}
-                  setEditable={this.setEditable}
-                  setEditableMode={this.setEditableMode}
-                  {...this.state}
-                />
-              </div>
-            </div>
+        <Grid container direction="row" justify="center" spacing={3}>
+          {" "}
+          <Grid
+            lg={2}
+            sm={12}
+            item
+            style={{ zIndex: 1, position: "sticky", top: 50, height: " 25vh" }}
+          >
+            <ProgressBar {...this.state} />
           </Grid>
-          <Grid item>
-            <MainButton addSection={this.addSection} />
+          <Grid item xs container direction="column" justify="center">
+            <Grid item xs>
+              <MainSection
+                addChoice={this.addChoiceforQuiz}
+                removeChoice={this.removeChoicefromQuiz}
+                addContent={this.addContent}
+                handleAdd={this.handleAdd}
+                setEditable={this.setEditable}
+                setEditableMode={this.setEditableMode}
+                {...this.state}
+              />
+            </Grid>
+            <Grid item xs>
+              <MainButton addSection={this.addSection} />
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            style={{ zIndex: 1, position: "sticky", top: 50, height: " 25vh" }}
+          >
+            <SideTree {...this.state} />
           </Grid>
         </Grid>
       </div>
